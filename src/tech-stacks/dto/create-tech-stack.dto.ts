@@ -42,6 +42,7 @@ export class CreateTechStackDto {
   @ApiProperty({
     required: true,
     type: () => Number,
+    default: 0,
   })
   @IsNumber()
   order: number;

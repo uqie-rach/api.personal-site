@@ -54,6 +54,7 @@ export class Portfolio {
   @ApiProperty({
     type: () => Number,
     nullable: false,
+    default: 0,
   })
   order: number;
 

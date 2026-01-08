@@ -11,6 +11,9 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'tech_stack',
 })
 export class TechStackEntity extends EntityRelationalHelper {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column({
     nullable: false,
     type: String,
@@ -38,11 +41,9 @@ export class TechStackEntity extends EntityRelationalHelper {
   @Column({
     nullable: false,
     type: Number,
+    default: 0,
   })
   order: number;
-
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
 
   @CreateDateColumn()
   createdAt: Date;

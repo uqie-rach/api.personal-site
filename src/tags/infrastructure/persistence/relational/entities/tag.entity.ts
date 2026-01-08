@@ -13,13 +13,13 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 export class TagEntity extends EntityRelationalHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Column({
     nullable: false,
     type: String,
   })
   name: string;
-  
+
   @CreateDateColumn()
   createdAt: Date;
 

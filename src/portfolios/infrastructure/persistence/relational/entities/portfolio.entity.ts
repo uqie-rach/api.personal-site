@@ -64,6 +64,7 @@ export class PortfolioEntity extends EntityRelationalHelper {
   @Column({
     nullable: false,
     type: Number,
+    default: 0,
   })
   order: number;
 

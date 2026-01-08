@@ -24,6 +24,7 @@ export class Blog {
   @ApiProperty({
     type: () => Number,
     nullable: false,
+    default: 0,
   })
   order: number;
 

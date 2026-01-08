@@ -55,6 +55,7 @@ export class CreateBlogDto {
   @ApiProperty({
     required: true,
     type: () => Number,
+    default: 0,
   })
   @IsNumber()
   order: number;

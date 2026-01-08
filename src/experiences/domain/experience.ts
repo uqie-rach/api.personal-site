@@ -65,6 +65,7 @@ export class Experience {
   @ApiProperty({
     type: () => Number,
     nullable: false,
+    default: 0,
   })
   order: number;
 
