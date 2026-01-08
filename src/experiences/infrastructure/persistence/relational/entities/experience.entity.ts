@@ -14,11 +14,8 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'experience',
 })
 export class ExperienceEntity extends EntityRelationalHelper {
-  @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.experiences, {
-    eager: false,
-    nullable: false,
-  })
-  ownedBy: UserEntity;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     nullable: false,
@@ -80,8 +77,11 @@ export class ExperienceEntity extends EntityRelationalHelper {
   })
   order: number;
 
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.experiences, {
+    eager: false,
+    nullable: false,
+  })
+  ownedBy: UserEntity;
 
   @CreateDateColumn()
   createdAt: Date;

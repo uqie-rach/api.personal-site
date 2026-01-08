@@ -18,11 +18,8 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'portfolio',
 })
 export class PortfolioEntity extends EntityRelationalHelper {
-  @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.portfolios, {
-    eager: false,
-    nullable: false,
-  })
-  ownedBy: UserEntity;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     nullable: false,
@@ -70,8 +67,11 @@ export class PortfolioEntity extends EntityRelationalHelper {
   })
   order: number;
 
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.portfolios, {
+    eager: false,
+    nullable: false,
+  })
+  ownedBy: UserEntity;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -11,15 +11,15 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'tag',
 })
 export class TagEntity extends EntityRelationalHelper {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  
   @Column({
     nullable: false,
     type: String,
   })
   name: string;
-
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+  
   @CreateDateColumn()
   createdAt: Date;
 
