@@ -1,3 +1,9 @@
+import { ExperienceDto } from '../../experiences/dto/experience.dto';
+
+import { PortfolioDto } from '../../portfolios/dto/portfolio.dto';
+
+import { BlogDto } from '../../blogs/dto/blog.dto';
+
 import {
   // decorators here
   Transform,
@@ -10,6 +16,8 @@ import {
   IsNotEmpty,
   IsOptional,
   MinLength,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
 import { FileDto } from '../../files/dto/file.dto';
 import { RoleDto } from '../../roles/dto/role.dto';
@@ -17,6 +25,36 @@ import { StatusDto } from '../../statuses/dto/status.dto';
 import { lowerCaseTransformer } from '../../utils/transformers/lower-case.transformer';
 
 export class CreateUserDto {
+  @ApiProperty({
+    required: false,
+    type: () => [ExperienceDto],
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ExperienceDto)
+  @IsArray()
+  experiences?: ExperienceDto[] | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [PortfolioDto],
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PortfolioDto)
+  @IsArray()
+  portfolios?: PortfolioDto[] | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [BlogDto],
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => BlogDto)
+  @IsArray()
+  blogs?: BlogDto[] | null;
+
   @ApiProperty({ example: 'test1@example.com', type: String })
   @Transform(lowerCaseTransformer)
   @IsNotEmpty()
