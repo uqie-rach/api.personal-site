@@ -12,9 +12,22 @@ export class TagSeedService {
 
   async run() {
     const count = await this.repository.count();
-
+    const tags = [
+      'Frontend',
+      'Performance',
+      'React.js',
+      'Next.js',
+      'Backend',
+      'DevOps',
+      'Nest.js',
+      'UI/UX',
+      'UI/UX',
+      'Software Engineer',
+      'System Design',
+      'Docker',
+    ];
     if (count === 0) {
-      await this.repository.save(this.repository.create({}));
+      await this.repository.insert([...tags.map((tag) => ({ name: tag }))]);
     }
   }
 }
