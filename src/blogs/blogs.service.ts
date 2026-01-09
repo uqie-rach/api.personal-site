@@ -76,8 +76,6 @@ export class BlogsService {
 
       content: createBlogDto.content,
 
-      excerpt: createBlogDto.excerpt,
-
       slug: createBlogDto.slug,
 
       title: createBlogDto.title,
@@ -162,8 +160,6 @@ export class BlogsService {
       coverImage: updateBlogDto.coverImage,
 
       content: updateBlogDto.content,
-
-      excerpt: updateBlogDto.excerpt,
 
       slug: updateBlogDto.slug,
 

@@ -26,8 +26,6 @@ export class BlogMapper {
 
     domainEntity.content = raw.content;
 
-    domainEntity.excerpt = raw.excerpt;
-
     domainEntity.slug = raw.slug;
 
     domainEntity.title = raw.title;
@@ -62,8 +60,6 @@ export class BlogMapper {
     persistenceEntity.coverImage = domainEntity.coverImage;
 
     persistenceEntity.content = domainEntity.content;
-
-    persistenceEntity.excerpt = domainEntity.excerpt;
 
     persistenceEntity.slug = domainEntity.slug;
 

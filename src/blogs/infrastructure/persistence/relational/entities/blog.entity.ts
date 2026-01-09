@@ -37,12 +37,6 @@ export class BlogEntity extends EntityRelationalHelper {
     nullable: false,
     type: String,
   })
-  excerpt: string;
-
-  @Column({
-    nullable: false,
-    type: String,
-  })
   content: string;
 
   @Column({

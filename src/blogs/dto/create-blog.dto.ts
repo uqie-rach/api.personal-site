@@ -88,13 +88,6 @@ export class CreateBlogDto {
     type: () => String,
   })
   @IsString()
-  excerpt: string;
-
-  @ApiProperty({
-    required: true,
-    type: () => String,
-  })
-  @IsString()
   slug: string;
 
   @ApiProperty({

@@ -50,12 +50,6 @@ export class Blog {
     type: () => String,
     nullable: false,
   })
-  excerpt: string;
-
-  @ApiProperty({
-    type: () => String,
-    nullable: false,
-  })
   slug: string;
 
   @ApiProperty({
