@@ -1,5 +1,6 @@
 export enum workStyle {
-    Onsite = "on-site",
-    Remote = "remote",
-    Hybrid = "hybrid"
+  FT = 'full-time',
+  PT = 'remote',
+  CT = 'contract',
+  IN = 'internship',
 }
