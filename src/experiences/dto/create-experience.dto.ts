@@ -9,7 +9,6 @@ import {
   IsBoolean,
   ValidateNested,
   IsNotEmptyObject,
-  IsArray,
 } from 'class-validator';
 
 import {
@@ -85,7 +84,7 @@ export class CreateExperienceDto {
   @ApiProperty({
     required: true,
     type: () => String,
-    isArray: true
+    isArray: true,
   })
   @IsString()
   description: string[];

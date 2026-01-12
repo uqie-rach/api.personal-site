@@ -62,7 +62,7 @@ export class ExperienceEntity extends EntityRelationalHelper {
   @Column({
     nullable: false,
     type: String,
-    array: true
+    array: true,
   })
   description: string[];
 

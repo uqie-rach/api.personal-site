@@ -12,7 +12,7 @@ export class ExperienceSeedService {
     private repository: Repository<ExperienceEntity>,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-  ) { }
+  ) {}
 
   async run() {
     const count = await this.repository.count();
@@ -37,7 +37,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.PT,
           description: [
             'Architected and developed AI-powered mobile app (React Native) with NestJS backend and custom ML engine using Python + FastAPI. Designed end-to-end system workflow including prompt routing and model engine orchestration.',
-            'Successfully delivered full-stack AI solution with integrated ML pipeline and mobile client.'
+            'Successfully delivered full-stack AI solution with integrated ML pipeline and mobile client.',
           ],
           order: 1,
           ownedBy: user,
@@ -52,7 +52,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.PT,
           description: [
             'Architected and developed B2B features for AI content generation platform. Integrated Google Gemini API for text, image, and video generation workflows.',
-            'Built scalable content generation system with multi-modal AI integration.'
+            'Built scalable content generation system with multi-modal AI integration.',
           ],
           order: 2,
           ownedBy: user,
@@ -67,7 +67,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.PT,
           description: [
             'Developed and deployed RESTful APIs with optimized database structure and backend logic. Implemented scalable backend architecture and CI/CD pipelines.',
-            'Increased API performance by ~30% through optimized queries and improved database indexing strategy.'
+            'Increased API performance by ~30% through optimized queries and improved database indexing strategy.',
           ],
           order: 3,
           ownedBy: user,
@@ -82,7 +82,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.PT,
           description: [
             'Designed full system architecture and database schema. Applied island architecture and optimized UI rendering. Implemented advanced image optimization techniques.',
-            'Improved page performance by ~85%, significantly reduced initial load time through image optimization.'
+            'Improved page performance by ~85%, significantly reduced initial load time through image optimization.',
           ],
           order: 4,
           ownedBy: user,
@@ -97,7 +97,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.IN,
           description: [
             'Implemented Firebase Auth & Storage in React Native app. Designed PostgreSQL schema. Documented APIs for frontend team integration.',
-            'Boosted query speed by ~25%, improved frontend development efficiency by ~15% through comprehensive API documentation.'
+            'Boosted query speed by ~25%, improved frontend development efficiency by ~15% through comprehensive API documentation.',
           ],
           order: 5,
           ownedBy: user,
@@ -112,7 +112,7 @@ export class ExperienceSeedService {
           workStyle: workStyle.IN,
           description: [
             'Built interactive e-commerce pages using Vue.js. Enhanced UX through smooth API-driven UI and dynamic product interaction.',
-            'Delivered multiple feature-rich e-commerce pages with optimized performance and engaging user experience.'
+            'Delivered multiple feature-rich e-commerce pages with optimized performance and engaging user experience.',
           ],
           order: 6,
           ownedBy: user,

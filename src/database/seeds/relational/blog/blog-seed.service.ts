@@ -34,6 +34,8 @@ export class BlogSeedService {
           coverImage: 'www',
           readTime: 8,
           author: 'Uqie',
+          description: 'this is a description',
+          tags: 'Next.js',
           content: `
         <h2>Introduction</h2>
         <p>
@@ -70,6 +72,8 @@ export class BlogSeedService {
           coverImage: 'www',
           readTime: 6,
           author: 'Uqie',
+          description: 'this is a description',
+          tags: 'Perfomance',
           content: `
         <h2>Performance Matters</h2>
         <p>

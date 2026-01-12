@@ -2,7 +2,6 @@ import { UsersService } from '../users/users.service';
 import { User } from '../users/domain/user';
 
 import { TagsService } from '../tags/tags.service';
-import { Tag } from '../tags/domain/tag';
 
 import {
   // common
@@ -33,6 +32,7 @@ export class BlogsService {
   async create(createBlogDto: CreateBlogDto) {
     // Do not remove comment below.
     // <creating-property />
+
     const createdByObject = await this.userService.findById(
       createBlogDto.createdBy.id,
     );
@@ -46,22 +46,11 @@ export class BlogsService {
     }
     const createdBy = createdByObject;
 
-    const tagsObjects = await this.tagService.findByIds(
-      createBlogDto.tags.map((entity) => entity.id),
-    );
-    if (tagsObjects.length !== createBlogDto.tags.length) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          tags: 'notExists',
-        },
-      });
-    }
-    const tags = tagsObjects;
-
     return this.blogRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
+      description: createBlogDto.description,
+
       createdBy,
 
       published: createBlogDto.published,
@@ -70,7 +59,7 @@ export class BlogsService {
 
       order: createBlogDto.order,
 
-      tags,
+      tags: createBlogDto.tags,
 
       coverImage: createBlogDto.coverImage,
 
@@ -110,6 +99,7 @@ export class BlogsService {
   ) {
     // Do not remove comment below.
     // <updating-property />
+
     let createdBy: User | undefined = undefined;
 
     if (updateBlogDto.createdBy) {
@@ -127,26 +117,11 @@ export class BlogsService {
       createdBy = createdByObject;
     }
 
-    let tags: Tag[] | undefined = undefined;
-
-    if (updateBlogDto.tags) {
-      const tagsObjects = await this.tagService.findByIds(
-        updateBlogDto.tags.map((entity) => entity.id),
-      );
-      if (tagsObjects.length !== updateBlogDto.tags.length) {
-        throw new UnprocessableEntityException({
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            tags: 'notExists',
-          },
-        });
-      }
-      tags = tagsObjects;
-    }
-
     return this.blogRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
+      description: updateBlogDto.description,
+
       createdBy,
 
       published: updateBlogDto.published,
@@ -155,7 +130,7 @@ export class BlogsService {
 
       order: updateBlogDto.order,
 
-      tags,
+      tags: updateBlogDto.tags,
 
       coverImage: updateBlogDto.coverImage,
 

@@ -53,7 +53,7 @@ export class Experience {
   @ApiProperty({
     type: () => String,
     nullable: false,
-    isArray: true
+    isArray: true,
   })
   description: string[];
 

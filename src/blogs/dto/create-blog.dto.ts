@@ -1,12 +1,8 @@
 import { UserDto } from '../../users/dto/user.dto';
 
-import { TagDto } from '../../tags/dto/tag.dto';
-
 import {
   // decorators here
-
   IsString,
-  IsArray,
   ValidateNested,
   IsNumber,
   IsOptional,
@@ -27,6 +23,14 @@ import {
 } from 'class-transformer';
 
 export class CreateBlogDto {
+  @ApiProperty({
+    required: false,
+    type: () => String,
+  })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
   @ApiProperty({
     required: true,
     type: () => UserDto,
@@ -62,12 +66,11 @@ export class CreateBlogDto {
 
   @ApiProperty({
     required: true,
-    type: () => [TagDto],
+    type: () => String,
   })
-  @ValidateNested()
-  @Type(() => TagDto)
-  @IsArray()
-  tags: TagDto[];
+  @Type(() => String)
+  @IsString()
+  tags: string;
 
   @ApiProperty({
     required: true,

@@ -1,13 +1,14 @@
 import { Blog } from '../../../../domain/blog';
-import { UserMapper } from '../../../../../users/infrastructure/persistence/relational/mappers/user.mapper';
 
-import { TagMapper } from '../../../../../tags/infrastructure/persistence/relational/mappers/tag.mapper';
+import { UserMapper } from '../../../../../users/infrastructure/persistence/relational/mappers/user.mapper';
 
 import { BlogEntity } from '../entities/blog.entity';
 
 export class BlogMapper {
   static toDomain(raw: BlogEntity): Blog {
     const domainEntity = new Blog();
+    domainEntity.description = raw.description;
+
     if (raw.createdBy) {
       domainEntity.createdBy = UserMapper.toDomain(raw.createdBy);
     }
@@ -18,9 +19,7 @@ export class BlogMapper {
 
     domainEntity.order = raw.order;
 
-    if (raw.tags) {
-      domainEntity.tags = raw.tags.map((item) => TagMapper.toDomain(item));
-    }
+    domainEntity.tags = raw.tags;
 
     domainEntity.coverImage = raw.coverImage;
 
@@ -39,6 +38,8 @@ export class BlogMapper {
 
   static toPersistence(domainEntity: Blog): BlogEntity {
     const persistenceEntity = new BlogEntity();
+    persistenceEntity.description = domainEntity.description;
+
     if (domainEntity.createdBy) {
       persistenceEntity.createdBy = UserMapper.toPersistence(
         domainEntity.createdBy,
@@ -51,11 +52,7 @@ export class BlogMapper {
 
     persistenceEntity.order = domainEntity.order;
 
-    if (domainEntity.tags) {
-      persistenceEntity.tags = domainEntity.tags.map((item) =>
-        TagMapper.toPersistence(item),
-      );
-    }
+    persistenceEntity.tags = domainEntity.tags;
 
     persistenceEntity.coverImage = domainEntity.coverImage;
 

@@ -1,8 +1,13 @@
 import { User } from '../../users/domain/user';
-import { Tag } from '../../tags/domain/tag';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Blog {
+  @ApiProperty({
+    type: () => String,
+    nullable: false,
+  })
+  description?: string;
+
   @ApiProperty({
     type: () => User,
     nullable: false,
@@ -29,10 +34,10 @@ export class Blog {
   order: number;
 
   @ApiProperty({
-    type: () => [Tag],
+    type: () => String,
     nullable: false,
   })
-  tags: Tag[];
+  tags: string;
 
   @ApiProperty({
     type: () => String,
