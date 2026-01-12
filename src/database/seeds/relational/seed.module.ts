@@ -10,8 +10,23 @@ import { UserSeedModule } from './user/user-seed.module';
 import databaseConfig from '../../config/database.config';
 import appConfig from '../../../config/app.config';
 
+import { TagSeedModule } from './tag/tag-seed.module';
+
+import { TechStackSeedModule } from './tech-stack/tech-stack-seed.module';
+
+import { ExperienceSeedModule } from './experience/experience-seed.module';
+
+import { BlogSeedModule } from './blog/blog-seed.module';
+
+import { PortfolioSeedModule } from './portfolio/portfolio-seed.module';
+
 @Module({
   imports: [
+    PortfolioSeedModule,
+    BlogSeedModule,
+    ExperienceSeedModule,
+    TechStackSeedModule,
+    TagSeedModule,
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,

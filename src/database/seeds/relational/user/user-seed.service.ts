@@ -6,12 +6,15 @@ import bcrypt from 'bcryptjs';
 import { RoleEnum } from '../../../../roles/roles.enum';
 import { StatusEnum } from '../../../../statuses/statuses.enum';
 import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
+import { faker } from '@faker-js/faker';
+import { UserFactory } from './user.factory';
 
 @Injectable()
 export class UserSeedService {
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
+    private userFactory: UserFactory,
   ) {}
 
   async run() {
@@ -74,5 +77,11 @@ export class UserSeedService {
         }),
       );
     }
+
+    await this.repository.save(
+      faker.helpers.multiple(this.userFactory.createRandomUser(), {
+        count: 5,
+      }),
+    );
   }
 }

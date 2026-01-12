@@ -1,3 +1,6 @@
+import { Experience } from '../../experiences/domain/experience';
+import { Portfolio } from '../../portfolios/domain/portfolio';
+import { Blog } from '../../blogs/domain/blog';
 import { Exclude, Expose } from 'class-transformer';
 import { FileType } from '../../files/domain/file';
 import { Role } from '../../roles/domain/role';
@@ -7,6 +10,24 @@ import { ApiProperty } from '@nestjs/swagger';
 const idType = Number;
 
 export class User {
+  @ApiProperty({
+    type: () => [Experience],
+    nullable: true,
+  })
+  experiences?: Experience[] | null;
+
+  @ApiProperty({
+    type: () => [Portfolio],
+    nullable: true,
+  })
+  portfolios?: Portfolio[] | null;
+
+  @ApiProperty({
+    type: () => [Blog],
+    nullable: true,
+  })
+  blogs?: Blog[] | null;
+
   @ApiProperty({
     type: idType,
   })

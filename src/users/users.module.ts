@@ -1,6 +1,10 @@
+import { ExperiencesModule } from '../experiences/experiences.module';
+import { PortfoliosModule } from '../portfolios/portfolios.module';
+import { BlogsModule } from '../blogs/blogs.module';
 import {
   // common
   Module,
+  forwardRef,
 } from '@nestjs/common';
 
 import { UsersController } from './users.controller';
@@ -13,6 +17,12 @@ const infrastructurePersistenceModule = RelationalUserPersistenceModule;
 
 @Module({
   imports: [
+    forwardRef(() => ExperiencesModule),
+
+    forwardRef(() => PortfoliosModule),
+
+    forwardRef(() => BlogsModule),
+
     // import modules, etc.
     infrastructurePersistenceModule,
     FilesModule,

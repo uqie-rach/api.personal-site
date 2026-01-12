@@ -1,7 +1,18 @@
+import { ExperiencesService } from '../experiences/experiences.service';
+import { Experience } from '../experiences/domain/experience';
+
+import { PortfoliosService } from '../portfolios/portfolios.service';
+import { Portfolio } from '../portfolios/domain/portfolio';
+
+import { BlogsService } from '../blogs/blogs.service';
+import { Blog } from '../blogs/domain/blog';
+
 import {
   HttpStatus,
   Injectable,
   UnprocessableEntityException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { NullableType } from '../utils/types/nullable.type';
@@ -22,6 +33,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UsersService {
   constructor(
+    @Inject(forwardRef(() => ExperiencesService))
+    private readonly experienceService: ExperiencesService,
+
+    @Inject(forwardRef(() => PortfoliosService))
+    private readonly portfolioService: PortfoliosService,
+
+    @Inject(forwardRef(() => BlogsService))
+    private readonly blogService: BlogsService,
+
     private readonly usersRepository: UserRepository,
     private readonly filesService: FilesService,
   ) {}
@@ -29,6 +49,62 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     // Do not remove comment below.
     // <creating-property />
+    let experiences: Experience[] | null | undefined = undefined;
+
+    if (createUserDto.experiences) {
+      const experiencesObjects = await this.experienceService.findByIds(
+        createUserDto.experiences.map((entity) => entity.id),
+      );
+      if (experiencesObjects.length !== createUserDto.experiences.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            experiences: 'notExists',
+          },
+        });
+      }
+      experiences = experiencesObjects;
+    } else if (createUserDto.experiences === null) {
+      experiences = null;
+    }
+
+    let portfolios: Portfolio[] | null | undefined = undefined;
+
+    if (createUserDto.portfolios) {
+      const portfoliosObjects = await this.portfolioService.findByIds(
+        createUserDto.portfolios.map((entity) => entity.id),
+      );
+      if (portfoliosObjects.length !== createUserDto.portfolios.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            portfolios: 'notExists',
+          },
+        });
+      }
+      portfolios = portfoliosObjects;
+    } else if (createUserDto.portfolios === null) {
+      portfolios = null;
+    }
+
+    let blogs: Blog[] | null | undefined = undefined;
+
+    if (createUserDto.blogs) {
+      const blogsObjects = await this.blogService.findByIds(
+        createUserDto.blogs.map((entity) => entity.id),
+      );
+      if (blogsObjects.length !== createUserDto.blogs.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            blogs: 'notExists',
+          },
+        });
+      }
+      blogs = blogsObjects;
+    } else if (createUserDto.blogs === null) {
+      blogs = null;
+    }
 
     let password: string | undefined = undefined;
 
@@ -116,6 +192,12 @@ export class UsersService {
     return this.usersRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
+      experiences,
+
+      portfolios,
+
+      blogs,
+
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       email: email,
@@ -175,6 +257,62 @@ export class UsersService {
   ): Promise<User | null> {
     // Do not remove comment below.
     // <updating-property />
+    let experiences: Experience[] | null | undefined = undefined;
+
+    if (updateUserDto.experiences) {
+      const experiencesObjects = await this.experienceService.findByIds(
+        updateUserDto.experiences.map((entity) => entity.id),
+      );
+      if (experiencesObjects.length !== updateUserDto.experiences.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            experiences: 'notExists',
+          },
+        });
+      }
+      experiences = experiencesObjects;
+    } else if (updateUserDto.experiences === null) {
+      experiences = null;
+    }
+
+    let portfolios: Portfolio[] | null | undefined = undefined;
+
+    if (updateUserDto.portfolios) {
+      const portfoliosObjects = await this.portfolioService.findByIds(
+        updateUserDto.portfolios.map((entity) => entity.id),
+      );
+      if (portfoliosObjects.length !== updateUserDto.portfolios.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            portfolios: 'notExists',
+          },
+        });
+      }
+      portfolios = portfoliosObjects;
+    } else if (updateUserDto.portfolios === null) {
+      portfolios = null;
+    }
+
+    let blogs: Blog[] | null | undefined = undefined;
+
+    if (updateUserDto.blogs) {
+      const blogsObjects = await this.blogService.findByIds(
+        updateUserDto.blogs.map((entity) => entity.id),
+      );
+      if (blogsObjects.length !== updateUserDto.blogs.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            blogs: 'notExists',
+          },
+        });
+      }
+      blogs = blogsObjects;
+    } else if (updateUserDto.blogs === null) {
+      blogs = null;
+    }
 
     let password: string | undefined = undefined;
 
@@ -270,6 +408,12 @@ export class UsersService {
     return this.usersRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
+      experiences,
+
+      portfolios,
+
+      blogs,
+
       firstName: updateUserDto.firstName,
       lastName: updateUserDto.lastName,
       email,

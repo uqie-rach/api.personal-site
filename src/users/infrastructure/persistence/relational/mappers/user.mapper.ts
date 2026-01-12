@@ -1,4 +1,10 @@
 import { FileEntity } from '../../../../../files/infrastructure/persistence/relational/entities/file.entity';
+import { ExperienceMapper } from '../../../../../experiences/infrastructure/persistence/relational/mappers/experience.mapper';
+
+import { PortfolioMapper } from '../../../../../portfolios/infrastructure/persistence/relational/mappers/portfolio.mapper';
+
+import { BlogMapper } from '../../../../../blogs/infrastructure/persistence/relational/mappers/blog.mapper';
+
 import { FileMapper } from '../../../../../files/infrastructure/persistence/relational/mappers/file.mapper';
 import { RoleEntity } from '../../../../../roles/infrastructure/persistence/relational/entities/role.entity';
 import { StatusEntity } from '../../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
@@ -8,6 +14,28 @@ import { UserEntity } from '../entities/user.entity';
 export class UserMapper {
   static toDomain(raw: UserEntity): User {
     const domainEntity = new User();
+    if (raw.experiences) {
+      domainEntity.experiences = raw.experiences.map((item) =>
+        ExperienceMapper.toDomain(item),
+      );
+    } else if (raw.experiences === null) {
+      domainEntity.experiences = null;
+    }
+
+    if (raw.portfolios) {
+      domainEntity.portfolios = raw.portfolios.map((item) =>
+        PortfolioMapper.toDomain(item),
+      );
+    } else if (raw.portfolios === null) {
+      domainEntity.portfolios = null;
+    }
+
+    if (raw.blogs) {
+      domainEntity.blogs = raw.blogs.map((item) => BlogMapper.toDomain(item));
+    } else if (raw.blogs === null) {
+      domainEntity.blogs = null;
+    }
+
     domainEntity.id = raw.id;
     domainEntity.email = raw.email;
     domainEntity.password = raw.password;
@@ -52,6 +80,30 @@ export class UserMapper {
     }
 
     const persistenceEntity = new UserEntity();
+    if (domainEntity.experiences) {
+      persistenceEntity.experiences = domainEntity.experiences.map((item) =>
+        ExperienceMapper.toPersistence(item),
+      );
+    } else if (domainEntity.experiences === null) {
+      persistenceEntity.experiences = null;
+    }
+
+    if (domainEntity.portfolios) {
+      persistenceEntity.portfolios = domainEntity.portfolios.map((item) =>
+        PortfolioMapper.toPersistence(item),
+      );
+    } else if (domainEntity.portfolios === null) {
+      persistenceEntity.portfolios = null;
+    }
+
+    if (domainEntity.blogs) {
+      persistenceEntity.blogs = domainEntity.blogs.map((item) =>
+        BlogMapper.toPersistence(item),
+      );
+    } else if (domainEntity.blogs === null) {
+      persistenceEntity.blogs = null;
+    }
+
     if (domainEntity.id && typeof domainEntity.id === 'number') {
       persistenceEntity.id = domainEntity.id;
     }
