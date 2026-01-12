@@ -20,17 +20,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { TechStack } from './domain/tech-stack';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllTechStacksDto } from './dto/find-all-tech-stacks.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Techstacks')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard)
 @Controller({
   path: 'tech-stacks',
   version: '1',
@@ -47,6 +48,7 @@ export class TechStacksController {
   }
 
   @Get()
+  @Public()
   @ApiOkResponse({
     type: InfinityPaginationResponse(TechStack),
   })

@@ -20,17 +20,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Experience } from './domain/experience';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllExperiencesDto } from './dto/find-all-experiences.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Experiences')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard)
 @Controller({
   path: 'experiences',
   version: '1',
@@ -50,6 +51,7 @@ export class ExperiencesController {
   @ApiOkResponse({
     type: InfinityPaginationResponse(Experience),
   })
+  @Public()
   async findAll(
     @Query() query: FindAllExperiencesDto,
   ): Promise<InfinityPaginationResponseDto<Experience>> {

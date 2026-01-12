@@ -12,11 +12,13 @@ import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
+  const reflector = app.get(Reflector)
 
   app.enableShutdownHooks();
   app.setGlobalPrefix(
@@ -35,6 +37,7 @@ async function bootstrap() {
     new ResolvePromisesInterceptor(),
     new ClassSerializerInterceptor(app.get(Reflector)),
   );
+  app.useGlobalGuards(new AuthGuard(reflector))
 
   const options = new DocumentBuilder()
     .setTitle('API')
