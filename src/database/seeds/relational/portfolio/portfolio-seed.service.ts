@@ -33,7 +33,13 @@ export class PortfolioSeedService {
           title: 'Tukar AI App',
           description:
             'Full-stack AI solution featuring React Native mobile client, NestJS backend, and custom ML engine using Python + FastAPI. Includes prompt routing and model orchestration for AI-powered features.',
-          techStackNames: ['React Native', 'NestJS', 'Python', 'FastAPI', 'TypeScript'],
+          techStackNames: [
+            'React Native',
+            'NestJS',
+            'Python',
+            'FastAPI',
+            'TypeScript',
+          ],
           liveUrl: null,
           repoUrl: '#',
           featured: true,
@@ -43,7 +49,13 @@ export class PortfolioSeedService {
           title: 'Bikinkonten.AI - B2B AI Content Generation Platform',
           description:
             'Scalable B2B platform for AI-powered content generation supporting text, image, and video generation. Integrated Google Gemini API with multi-modal workflows and comprehensive content management system.',
-          techStackNames: ['Next.js', 'NestJS', 'PostgreSQL', 'TypeScript', 'React'],
+          techStackNames: [
+            'Next.js',
+            'NestJS',
+            'PostgreSQL',
+            'TypeScript',
+            'React',
+          ],
           liveUrl: '#',
           repoUrl: '#',
           featured: true,
@@ -73,7 +85,12 @@ export class PortfolioSeedService {
           title: 'Firebase-Powered React Native App',
           description:
             'Cross-platform React Native application with Firebase Authentication and Storage integration. Features optimized PostgreSQL schema design and comprehensive API documentation for seamless frontend integration.',
-          techStackNames: ['React Native', 'Firebase', 'PostgreSQL', 'JavaScript'],
+          techStackNames: [
+            'React Native',
+            'Firebase',
+            'PostgreSQL',
+            'JavaScript',
+          ],
           liveUrl: null,
           repoUrl: '#',
           featured: false,

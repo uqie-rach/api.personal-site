@@ -12,7 +12,7 @@ export class BlogSeedService {
     private repository: Repository<BlogEntity>,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-  ) { }
+  ) {}
 
   async run() {
     const count = await this.repository.count();
@@ -32,7 +32,7 @@ export class BlogSeedService {
           title: 'Building Scalable Applications with Next.js',
           slug: 'building-scalable-applications',
           published: false,
-          coverImage: "www",
+          coverImage: 'www',
           readTime: 8,
           author: 'Uqie',
           content: `
@@ -68,7 +68,7 @@ export class BlogSeedService {
           title: 'React Performance Optimization Tips',
           slug: 'react-performance-optimization',
           published: false,
-          coverImage: "www",
+          coverImage: 'www',
           readTime: 6,
           author: 'Uqie',
           content: `

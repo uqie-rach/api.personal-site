@@ -6,7 +6,9 @@ import { UserEntity } from '../../../../users/infrastructure/persistence/relatio
 import { TechStackEntity } from '../../../../tech-stacks/infrastructure/persistence/relational/entities/tech-stack.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PortfolioEntity, UserEntity, TechStackEntity])],
+  imports: [
+    TypeOrmModule.forFeature([PortfolioEntity, UserEntity, TechStackEntity]),
+  ],
   providers: [PortfolioSeedService],
   exports: [PortfolioSeedService],
 })
