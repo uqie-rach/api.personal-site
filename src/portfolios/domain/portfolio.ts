@@ -1,5 +1,4 @@
 import { User } from '../../users/domain/user';
-import { TechStack } from '../../tech-stacks/domain/tech-stack';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Portfolio {
@@ -28,10 +27,11 @@ export class Portfolio {
   image: string;
 
   @ApiProperty({
-    type: () => [TechStack],
+    type: () => [String],
     nullable: false,
+    isArray: true,
   })
-  technologies: TechStack[];
+  technologies: string[];
 
   @ApiProperty({
     type: () => String,

@@ -1,6 +1,7 @@
 export enum category {
   FE = 'frontend',
   AN = 'android',
+  ML = 'machine learning',
   BE = 'backtend',
   DevOps = 'devOps',
   Other = 'other',

@@ -166,6 +166,13 @@ export class TechStackSeedService {
           proficiency: proficiency.Adv,
           order: 0,
         },
+        {
+          name: 'python',
+          category: category.ML,
+          icon: 'https://icon',
+          proficiency: proficiency.Beg,
+          order: 0,
+        },
       ];
 
       await this.repository.insert(techStacks);

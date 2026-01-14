@@ -1,8 +1,6 @@
 import { Portfolio } from '../../../../domain/portfolio';
 import { UserMapper } from '../../../../../users/infrastructure/persistence/relational/mappers/user.mapper';
 
-import { TechStackMapper } from '../../../../../tech-stacks/infrastructure/persistence/relational/mappers/tech-stack.mapper';
-
 import { PortfolioEntity } from '../entities/portfolio.entity';
 
 export class PortfolioMapper {
@@ -18,11 +16,7 @@ export class PortfolioMapper {
 
     domainEntity.image = raw.image;
 
-    if (raw.technologies) {
-      domainEntity.technologies = raw.technologies.map((item) =>
-        TechStackMapper.toDomain(item),
-      );
-    }
+    domainEntity.technologies = raw.technologies;
 
     domainEntity.liveUrl = raw.liveUrl;
 
@@ -53,11 +47,7 @@ export class PortfolioMapper {
 
     persistenceEntity.image = domainEntity.image;
 
-    if (domainEntity.technologies) {
-      persistenceEntity.technologies = domainEntity.technologies.map((item) =>
-        TechStackMapper.toPersistence(item),
-      );
-    }
+    persistenceEntity.technologies = domainEntity.technologies;
 
     persistenceEntity.liveUrl = domainEntity.liveUrl;
 

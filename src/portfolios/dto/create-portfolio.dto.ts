@@ -1,7 +1,5 @@
 import { UserDto } from '../../users/dto/user.dto';
 
-import { TechStackDto } from '../../tech-stacks/dto/tech-stack.dto';
-
 import {
   // decorators here
 
@@ -57,12 +55,11 @@ export class CreatePortfolioDto {
 
   @ApiProperty({
     required: true,
-    type: () => [TechStackDto],
+    type: () => [String],
   })
-  @ValidateNested()
-  @Type(() => TechStackDto)
+  @Type(() => String)
   @IsArray()
-  technologies: TechStackDto[];
+  technologies: string[];
 
   @ApiProperty({
     required: false,

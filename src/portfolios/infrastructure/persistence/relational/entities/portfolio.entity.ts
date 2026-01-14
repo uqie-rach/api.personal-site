@@ -1,15 +1,11 @@
 import { UserEntity } from '../../../../../users/infrastructure/persistence/relational/entities/user.entity';
 
-import { TechStackEntity } from '../../../../../tech-stacks/infrastructure/persistence/relational/entities/tech-stack.entity';
-
 import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
@@ -39,9 +35,12 @@ export class PortfolioEntity extends EntityRelationalHelper {
   })
   image: string;
 
-  @ManyToMany(() => TechStackEntity, { eager: true, nullable: false })
-  @JoinTable()
-  technologies: TechStackEntity[];
+  @Column({
+    nullable: false,
+    type: String,
+    array: true,
+  })
+  technologies: string[];
 
   @Column({
     nullable: true,

@@ -1,9 +1,6 @@
 import { UsersService } from '../users/users.service';
 import { User } from '../users/domain/user';
 
-import { TechStacksService } from '../tech-stacks/tech-stacks.service';
-import { TechStack } from '../tech-stacks/domain/tech-stack';
-
 import {
   // common
   Injectable,
@@ -23,8 +20,6 @@ export class PortfoliosService {
   constructor(
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
-
-    private readonly techStackService: TechStacksService,
 
     // Dependencies here
     private readonly portfolioRepository: PortfolioRepository,
@@ -46,19 +41,6 @@ export class PortfoliosService {
     }
     const ownedBy = ownedByObject;
 
-    const technologiesObjects = await this.techStackService.findByIds(
-      createPortfolioDto.technologies.map((entity) => entity.id),
-    );
-    if (technologiesObjects.length !== createPortfolioDto.technologies.length) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          technologies: 'notExists',
-        },
-      });
-    }
-    const technologies = technologiesObjects;
-
     return this.portfolioRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
@@ -70,7 +52,7 @@ export class PortfoliosService {
 
       image: createPortfolioDto.image,
 
-      technologies,
+      technologies: createPortfolioDto.technologies,
 
       liveUrl: createPortfolioDto.liveUrl,
 
@@ -127,25 +109,6 @@ export class PortfoliosService {
       ownedBy = ownedByObject;
     }
 
-    let technologies: TechStack[] | undefined = undefined;
-
-    if (updatePortfolioDto.technologies) {
-      const technologiesObjects = await this.techStackService.findByIds(
-        updatePortfolioDto.technologies.map((entity) => entity.id),
-      );
-      if (
-        technologiesObjects.length !== updatePortfolioDto.technologies.length
-      ) {
-        throw new UnprocessableEntityException({
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            technologies: 'notExists',
-          },
-        });
-      }
-      technologies = technologiesObjects;
-    }
-
     return this.portfolioRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
@@ -157,7 +120,7 @@ export class PortfoliosService {
 
       image: updatePortfolioDto.image,
 
-      technologies,
+      technologies: updatePortfolioDto.technologies,
 
       liveUrl: updatePortfolioDto.liveUrl,
 
