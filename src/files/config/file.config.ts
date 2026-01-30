@@ -31,6 +31,20 @@ class EnvironmentVariablesValidator {
   )
   @IsString()
   AWS_S3_REGION: string;
+
+  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.SUPABASE)
+  @IsString()
+  SUPABASE_URL: string;
+
+  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.SUPABASE)
+  @IsString()
+  SUPABASE_SERVICE_ROLE_KEY: string;
+
+  @ValidateIf((envValues) =>
+    [FileDriver.SUPABASE].includes(envValues.FILE_DRIVER),
+  )
+  @IsString()
+  SUPABASE_BUCKET: string;
 }
 
 export default registerAs<FileConfig>('file', () => {
@@ -38,11 +52,14 @@ export default registerAs<FileConfig>('file', () => {
 
   return {
     driver:
-      (process.env.FILE_DRIVER as FileDriver | undefined) ?? FileDriver.LOCAL,
+      (process.env.FILE_DRIVER as FileDriver | undefined) ?? FileDriver.SUPABASE,
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
     awsDefaultS3Bucket: process.env.AWS_DEFAULT_S3_BUCKET,
     awsS3Region: process.env.AWS_S3_REGION,
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseBucket: process.env.SUPABASE_BUCKET,
     maxFileSize: 5242880, // 5mb
   };
 });
