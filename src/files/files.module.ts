@@ -8,7 +8,6 @@ import fileConfig from './config/file.config';
 import { FileConfig, FileDriver } from './config/file-config.type';
 import { FilesLocalModule } from './infrastructure/uploader/local/files.module';
 import { FilesS3Module } from './infrastructure/uploader/s3/files.module';
-import { FilesS3PresignedModule } from './infrastructure/uploader/s3-presigned/files.module';
 import { FilesSupabaseModule } from './infrastructure/uploader/supabase/files.module';
 
 const infrastructurePersistenceModule = RelationalFilePersistenceModule;
