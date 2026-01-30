@@ -1,4 +1,8 @@
-import { HttpStatus, Module, UnprocessableEntityException } from '@nestjs/common';
+import {
+  HttpStatus,
+  Module,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { FilesSupabaseService } from './files.service';
 import { FilesSupabaseController } from './files.controller';
 import { RelationalFilePersistenceModule } from '../../persistence/relational/relational-persistence.module';
@@ -23,25 +27,25 @@ const infrastructurePersistenceModule = RelationalFilePersistenceModule;
                 new UnprocessableEntityException({
                   status: HttpStatus.UNPROCESSABLE_ENTITY,
                   errors: {
-                    file: 'cantUploadFileType'
+                    file: 'cantUploadFileType',
                   },
                 }),
-                false
-              )
+                false,
+              );
             }
 
             callback(null, true);
           },
           storage: multer.memoryStorage(),
           limits: {
-            fileSize: configService.get('file.maxFileSize', { infer: true })
-          }
-        }
-      }
+            fileSize: configService.get('file.maxFileSize', { infer: true }),
+          },
+        };
+      },
     }),
   ],
   providers: [FilesSupabaseService],
   controllers: [FilesSupabaseController],
-  exports: [FilesSupabaseService]
+  exports: [FilesSupabaseService],
 })
-export class FilesSupabaseModule { }
+export class FilesSupabaseModule {}

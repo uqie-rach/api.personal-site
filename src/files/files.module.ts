@@ -19,7 +19,6 @@ const infrastructureUploaderModule =
       ? FilesS3Module
       : FilesSupabaseModule;
 
-      console.log(infrastructureUploaderModule)
 
 @Module({
   imports: [

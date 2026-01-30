@@ -1,8 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
-  FileRepository,
-} from '../../persistence/file.repository';
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { FileRepository } from '../../persistence/file.repository';
 import { FileType } from '../../../domain/file';
 import { AllConfigType } from '../../../../config/config.type';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
@@ -30,12 +33,18 @@ export class FilesSupabaseService {
 
   async create(file: Express.Multer.File): Promise<{ file: FileType }> {
     if (!this.supabase) {
-      throw new UnprocessableEntityException('Supabase client is not initialized');
+      throw new UnprocessableEntityException(
+        'Supabase client is not initialized',
+      );
     }
 
-    const bucketName = this.configService.get('file.supabaseBucket', { infer: true }) as string | undefined;
+    const bucketName = this.configService.get('file.supabaseBucket', {
+      infer: true,
+    }) as string | undefined;
     if (!bucketName) {
-      throw new UnprocessableEntityException('Supabase bucket name is not configured');
+      throw new UnprocessableEntityException(
+        'Supabase bucket name is not configured',
+      );
     }
 
     const fileId = randomUUID();
@@ -51,7 +60,9 @@ export class FilesSupabaseService {
       });
 
     if (error) {
-      throw new UnprocessableEntityException(`Failed to upload file to Supabase: ${error.message}`);
+      throw new UnprocessableEntityException(
+        `Failed to upload file to Supabase: ${error.message}`,
+      );
     }
 
     const { data } = this.supabase.storage
@@ -61,8 +72,8 @@ export class FilesSupabaseService {
     return {
       file: await this.fileRepository.create({
         path: data.publicUrl,
-      })
-    }
+      }),
+    };
   }
 
   async findById(id: string) {
@@ -74,10 +85,10 @@ export class FilesSupabaseService {
 
     if (!image) throw new NotFoundException('Image not found');
 
-    console.log(typeof image)
+    console.log(typeof image);
 
     return {
-      file: image
+      file: image,
     };
   }
 }

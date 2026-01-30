@@ -10,7 +10,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FilesSupabaseService } from './files.service';
 import { Public } from '../../../../auth/decorators/public.decorator';
 import { FileResponseDto } from './dto/file-response.dto';
@@ -19,12 +26,12 @@ import { AuthGuard } from '../../../../auth/guards/auth.guard';
 @ApiTags('Files')
 @Controller({
   path: 'files',
-  version: '1'
+  version: '1',
 })
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 export class FilesSupabaseController {
-  constructor(private readonly filesSupabaseService: FilesSupabaseService) { }
+  constructor(private readonly filesSupabaseService: FilesSupabaseService) {}
 
   @Post('upload')
   @HttpCode(HttpStatus.CREATED)
@@ -45,15 +52,15 @@ export class FilesSupabaseController {
       type: 'object',
       example: {
         file: {
-          id: "dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba",
-          path: "https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png"
-        }
-      }
-    }
+          id: 'dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba',
+          path: 'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
+        },
+      },
+    },
   })
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<FileResponseDto> {
     return this.filesSupabaseService.create(file);
   }
@@ -64,23 +71,20 @@ export class FilesSupabaseController {
   @ApiParam({
     name: 'id',
     type: 'string',
-    required: true
+    required: true,
   })
   @ApiResponse({
     schema: {
       type: 'object',
       example: {
         file: {
-          id: "dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba",
-          path: "https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png"
-        }
-      }
-    }
+          id: 'dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba',
+          path: 'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
+        },
+      },
+    },
   })
-  async findById(
-    @Param('id') id: string
-  ): Promise<FileResponseDto> {
+  async findById(@Param('id') id: string): Promise<FileResponseDto> {
     return this.filesSupabaseService.findById(id);
   }
 }
-
