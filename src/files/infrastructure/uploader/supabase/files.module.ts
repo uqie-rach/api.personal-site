@@ -20,6 +20,7 @@ const infrastructurePersistenceModule = RelationalFilePersistenceModule;
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AllConfigType>) => {
+console.log(first)
         return {
           fileFilter: (request, file, callback) => {
             if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
