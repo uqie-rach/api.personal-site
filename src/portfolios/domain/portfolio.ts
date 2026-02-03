@@ -1,7 +1,14 @@
+import { FileType } from '../../files/domain/file';
 import { User } from '../../users/domain/user';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Portfolio {
+  @ApiProperty({
+    type: () => FileType,
+    nullable: true,
+  })
+  image?: FileType | null;
+
   @ApiProperty({
     type: () => User,
     nullable: false,
@@ -19,12 +26,6 @@ export class Portfolio {
     nullable: false,
   })
   description: string;
-
-  @ApiProperty({
-    type: () => String,
-    nullable: false,
-  })
-  image: string;
 
   @ApiProperty({
     type: () => [String],

@@ -1,5 +1,7 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -22,6 +24,8 @@ import { FilesSupabaseService } from './files.service';
 import { Public } from '../../../../auth/decorators/public.decorator';
 import { FileResponseDto } from './dto/file-response.dto';
 import { AuthGuard } from '../../../../auth/guards/auth.guard';
+import { DeleteFileDto } from '../../../dto/deleteFileDto';
+import { FilesService } from '../../../files.service';
 
 @ApiTags('Files')
 @Controller({
@@ -31,7 +35,10 @@ import { AuthGuard } from '../../../../auth/guards/auth.guard';
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 export class FilesSupabaseController {
-  constructor(private readonly filesSupabaseService: FilesSupabaseService) {}
+  constructor(
+    private readonly filesSupabaseService: FilesSupabaseService,
+    private readonly filesService: FilesService,
+  ) {}
 
   @Post('upload')
   @HttpCode(HttpStatus.CREATED)
@@ -79,12 +86,37 @@ export class FilesSupabaseController {
       example: {
         file: {
           id: 'dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba',
-          path: 'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
+          path: 'uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
+          publicUrl: 'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png'
         },
       },
     },
   })
   async findById(@Param('id') id: string): Promise<FileResponseDto> {
     return this.filesSupabaseService.findById(id);
+  }
+
+  @Delete('delete')
+  @HttpCode(HttpStatus.OK)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      example: {
+        path: "uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png"
+      }
+    }
+  })
+  @ApiResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'ok'
+      },
+    },
+  })
+  async _delete(@Body() deleteFileDto: DeleteFileDto): Promise<void> {
+    // Menggunakan FilesService._delete() yang orchestrate storage + database deletion
+    // Bukan langsung FilesSupabaseService untuk maintain hexagonal architecture
+    await this.filesService._delete(deleteFileDto.path);
   }
 }

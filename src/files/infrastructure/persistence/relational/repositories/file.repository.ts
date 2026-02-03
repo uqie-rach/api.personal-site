@@ -43,4 +43,21 @@ export class FileRelationalRepository implements FileRepository {
 
     return entities.map((entity) => FileMapper.toDomain(entity));
   }
+
+  async _delete(path: FileType['path']): Promise<NullableType<FileType>> {
+    const entity = await this.fileRepository.findOne({
+      where: {
+        path,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (entity) {
+      await this.fileRepository.delete(entity.id);
+    }
+
+    return entity ? FileMapper.toDomain(entity) : null;
+  }
 }

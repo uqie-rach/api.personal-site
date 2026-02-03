@@ -1,4 +1,6 @@
 import { Portfolio } from '../../../../domain/portfolio';
+import { FileMapper } from '../../../../../files/infrastructure/persistence/relational/mappers/file.mapper';
+
 import { UserMapper } from '../../../../../users/infrastructure/persistence/relational/mappers/user.mapper';
 
 import { PortfolioEntity } from '../entities/portfolio.entity';
@@ -6,6 +8,12 @@ import { PortfolioEntity } from '../entities/portfolio.entity';
 export class PortfolioMapper {
   static toDomain(raw: PortfolioEntity): Portfolio {
     const domainEntity = new Portfolio();
+    if (raw.image) {
+      domainEntity.image = FileMapper.toDomain(raw.image);
+    } else if (raw.image === null) {
+      domainEntity.image = null;
+    }
+
     if (raw.ownedBy) {
       domainEntity.ownedBy = UserMapper.toDomain(raw.ownedBy);
     }
@@ -13,8 +21,6 @@ export class PortfolioMapper {
     domainEntity.title = raw.title;
 
     domainEntity.description = raw.description;
-
-    domainEntity.image = raw.image;
 
     domainEntity.technologies = raw.technologies;
 
@@ -35,17 +41,22 @@ export class PortfolioMapper {
 
   static toPersistence(domainEntity: Portfolio): PortfolioEntity {
     const persistenceEntity = new PortfolioEntity();
+    if (domainEntity.image) {
+      persistenceEntity.image = FileMapper.toPersistence(domainEntity.image);
+    } else if (domainEntity.image === null) {
+      persistenceEntity.image = null;
+    }
+
     if (domainEntity.ownedBy) {
       persistenceEntity.ownedBy = UserMapper.toPersistence(
         domainEntity.ownedBy,
       );
     }
+    // persistenceEntity.image = FileMapper.toPersistence(domainEntity.image);
 
     persistenceEntity.title = domainEntity.title;
 
     persistenceEntity.description = domainEntity.description;
-
-    persistenceEntity.image = domainEntity.image;
 
     persistenceEntity.technologies = domainEntity.technologies;
 

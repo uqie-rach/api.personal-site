@@ -2,6 +2,7 @@ import {
   HttpStatus,
   Module,
   UnprocessableEntityException,
+  forwardRef,
 } from '@nestjs/common';
 import { FilesSupabaseService } from './files.service';
 import { FilesSupabaseController } from './files.controller';
@@ -10,12 +11,14 @@ import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AllConfigType } from '../../../../config/config.type';
 import multer from 'multer';
+import { FilesModule } from '../../../files.module';
 
 const infrastructurePersistenceModule = RelationalFilePersistenceModule;
 
 @Module({
   imports: [
     infrastructurePersistenceModule,
+    forwardRef(() => FilesModule),
     MulterModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

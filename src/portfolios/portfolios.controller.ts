@@ -108,6 +108,6 @@ export class PortfoliosController {
     required: true,
   })
   remove(@Param('id') id: string) {
-    return this.portfoliosService.remove(id);
+    return this.portfoliosService._delete(id);
   }
 }

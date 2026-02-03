@@ -23,6 +23,7 @@ export class FilesS3Service {
     return {
       file: await this.fileRepository.create({
         path: file.key,
+        publicUrl: file.path,
       }),
     };
   }

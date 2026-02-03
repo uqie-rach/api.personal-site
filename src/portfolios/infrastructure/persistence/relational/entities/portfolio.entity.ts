@@ -7,13 +7,20 @@ import {
   UpdateDateColumn,
   Column,
   ManyToOne,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
+import { FileEntity } from '../../../../../files/infrastructure/persistence/relational/entities/file.entity';
 
 @Entity({
   name: 'portfolio',
 })
 export class PortfolioEntity extends EntityRelationalHelper {
+  @OneToOne(() => FileEntity, { eager: true, nullable: true })
+  @JoinColumn()
+  image?: FileEntity | null;
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -28,12 +35,6 @@ export class PortfolioEntity extends EntityRelationalHelper {
     type: String,
   })
   description: string;
-
-  @Column({
-    nullable: false,
-    type: String,
-  })
-  image: string;
 
   @Column({
     nullable: false,

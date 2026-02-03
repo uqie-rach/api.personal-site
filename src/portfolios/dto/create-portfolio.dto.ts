@@ -1,3 +1,7 @@
+import { FileDto } from '../../files/dto/file.dto';
+
+import { PortfolioDto } from './portfolio.dto';
+
 import { UserDto } from '../../users/dto/user.dto';
 
 import {
@@ -24,6 +28,16 @@ import {
 
 export class CreatePortfolioDto {
   @ApiProperty({
+    required: false,
+    type: () => FileDto,
+  })
+  @IsOptional()
+  // @ValidateNested()
+  // @IsNotEmptyObject()
+  @Type(() => FileDto)
+  image?: FileDto | null;
+
+  @ApiProperty({
     required: true,
     type: () => UserDto,
   })
@@ -45,13 +59,6 @@ export class CreatePortfolioDto {
   })
   @IsString()
   description: string;
-
-  @ApiProperty({
-    required: true,
-    type: () => String,
-  })
-  @IsString()
-  image: string;
 
   @ApiProperty({
     required: true,

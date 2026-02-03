@@ -7,5 +7,13 @@ export class FileDto {
   @IsNotEmpty()
   id: string;
 
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   path: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  publicUrl: string;
 }
