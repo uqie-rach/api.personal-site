@@ -1,15 +1,11 @@
 import { UserEntity } from '../../../../../users/infrastructure/persistence/relational/entities/user.entity';
 
-import { TagEntity } from '../../../../../tags/infrastructure/persistence/relational/entities/tag.entity';
-
 import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
@@ -18,6 +14,12 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'blog',
 })
 export class BlogEntity extends EntityRelationalHelper {
+  @Column({
+    nullable: false,
+    type: String,
+  })
+  description?: string;
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -70,12 +72,14 @@ export class BlogEntity extends EntityRelationalHelper {
   })
   order: number;
 
-  @ManyToMany(() => TagEntity, { eager: true, nullable: false })
-  @JoinTable()
-  tags: TagEntity[];
+  @Column({
+    nullable: false,
+    type: String,
+  })
+  tags: string;
 
   @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.blogs, {
-    eager: false,
+    eager: true,
     nullable: false,
   })
   createdBy: UserEntity;

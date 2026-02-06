@@ -51,16 +51,11 @@ export class Experience {
   workStyle: string;
 
   @ApiProperty({
-    type: () => String,
-    nullable: false,
-  })
-  description: string;
-
-  @ApiProperty({
-    type: () => String,
+    type: () => [String],
     nullable: true,
+    isArray: true,
   })
-  accomplishments?: string | null;
+  accomplishments: string[];
 
   @ApiProperty({
     type: () => Number,

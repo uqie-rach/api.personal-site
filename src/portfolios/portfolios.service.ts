@@ -1,8 +1,7 @@
+import { FileType } from '../files/domain/file';
+
 import { UsersService } from '../users/users.service';
 import { User } from '../users/domain/user';
-
-import { TechStacksService } from '../tech-stacks/tech-stacks.service';
-import { TechStack } from '../tech-stacks/domain/tech-stack';
 
 import {
   // common
@@ -11,20 +10,22 @@ import {
   UnprocessableEntityException,
   Inject,
   forwardRef,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
 import { PortfolioRepository } from './infrastructure/persistence/portfolio.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Portfolio } from './domain/portfolio';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class PortfoliosService {
   constructor(
+    private readonly fileService: FilesService,
+
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
-
-    private readonly techStackService: TechStacksService,
 
     // Dependencies here
     private readonly portfolioRepository: PortfolioRepository,
@@ -33,6 +34,25 @@ export class PortfoliosService {
   async create(createPortfolioDto: CreatePortfolioDto) {
     // Do not remove comment below.
     // <creating-property />
+    let image: FileType | null | undefined = undefined;
+
+    if (createPortfolioDto.image) {
+      const imageObject = await this.fileService.findById(
+        createPortfolioDto.image.id,
+      );
+      if (!imageObject) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            image: 'notExists',
+          },
+        });
+      }
+      image = imageObject;
+    } else if (createPortfolioDto.image === null) {
+      image = null;
+    }
+
     const ownedByObject = await this.userService.findById(
       createPortfolioDto.ownedBy.id,
     );
@@ -46,31 +66,18 @@ export class PortfoliosService {
     }
     const ownedBy = ownedByObject;
 
-    const technologiesObjects = await this.techStackService.findByIds(
-      createPortfolioDto.technologies.map((entity) => entity.id),
-    );
-    if (technologiesObjects.length !== createPortfolioDto.technologies.length) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          technologies: 'notExists',
-        },
-      });
-    }
-    const technologies = technologiesObjects;
-
     return this.portfolioRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
+      image,
+
       ownedBy,
 
       title: createPortfolioDto.title,
 
       description: createPortfolioDto.description,
 
-      image: createPortfolioDto.image,
-
-      technologies,
+      technologies: createPortfolioDto.technologies,
 
       liveUrl: createPortfolioDto.liveUrl,
 
@@ -110,6 +117,26 @@ export class PortfoliosService {
   ) {
     // Do not remove comment below.
     // <updating-property />
+    let image: FileType | null | undefined = undefined;
+
+    if (updatePortfolioDto.image) {
+      const imageObject = await this.fileService.findById(
+        updatePortfolioDto.image.id,
+      );
+
+      if (!imageObject) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            image: 'notExists',
+          },
+        });
+      }
+      image = imageObject;
+    } else if (updatePortfolioDto.image === null) {
+      image = null;
+    }
+
     let ownedBy: User | undefined = undefined;
 
     if (updatePortfolioDto.ownedBy) {
@@ -127,37 +154,18 @@ export class PortfoliosService {
       ownedBy = ownedByObject;
     }
 
-    let technologies: TechStack[] | undefined = undefined;
-
-    if (updatePortfolioDto.technologies) {
-      const technologiesObjects = await this.techStackService.findByIds(
-        updatePortfolioDto.technologies.map((entity) => entity.id),
-      );
-      if (
-        technologiesObjects.length !== updatePortfolioDto.technologies.length
-      ) {
-        throw new UnprocessableEntityException({
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            technologies: 'notExists',
-          },
-        });
-      }
-      technologies = technologiesObjects;
-    }
-
     return this.portfolioRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
+      image,
+
       ownedBy,
 
       title: updatePortfolioDto.title,
 
       description: updatePortfolioDto.description,
 
-      image: updatePortfolioDto.image,
-
-      technologies,
+      technologies: updatePortfolioDto.technologies,
 
       liveUrl: updatePortfolioDto.liveUrl,
 
@@ -169,7 +177,30 @@ export class PortfoliosService {
     });
   }
 
-  remove(id: Portfolio['id']) {
-    return this.portfolioRepository.remove(id);
+  async _delete(id: Portfolio['id']) {
+    // Find portfolio to be deleted
+    const toBeRemoved = await this.portfolioRepository.findById(id);
+
+    // If not exist, throw an exception
+    if (!toBeRemoved) {
+      throw new NotFoundException("Portfolio doesn't exist");
+    }
+
+    // Delete image from storage and database first
+    // Fail-safe: jika image deletion gagal, portfolio tidak akan terhapus
+    if (toBeRemoved.image?.path) {
+      try {
+        await this.fileService._delete(toBeRemoved.image.path);
+      } catch (error) {
+        throw new UnprocessableEntityException(
+          `Failed to delete portfolio image: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        );
+      }
+    }
+
+    // Delete portfolio only after image is successfully deleted
+    await this.portfolioRepository.remove(id);
   }
 }

@@ -20,17 +20,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Tag } from './domain/tag';
-import { AuthGuard } from '@nestjs/passport';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllTagsDto } from './dto/find-all-tags.dto';
+import { Public } from '../auth/decorators/public.decorator';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @ApiTags('Tags')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard)
 @Controller({
   path: 'tags',
   version: '1',
@@ -47,6 +48,7 @@ export class TagsController {
   }
 
   @Get()
+  @Public()
   @ApiOkResponse({
     type: InfinityPaginationResponse(Tag),
   })

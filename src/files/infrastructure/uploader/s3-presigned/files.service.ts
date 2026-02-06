@@ -84,6 +84,7 @@ export class FilesS3PresignedService {
     const signedUrl = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
     const data = await this.fileRepository.create({
       path: key,
+      publicUrl: key,
     });
 
     return {

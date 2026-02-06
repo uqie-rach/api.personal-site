@@ -20,17 +20,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Portfolio } from './domain/portfolio';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllPortfoliosDto } from './dto/find-all-portfolios.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Portfolios')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard)
 @Controller({
   path: 'portfolios',
   version: '1',
@@ -47,6 +48,7 @@ export class PortfoliosController {
   }
 
   @Get()
+  @Public()
   @ApiOkResponse({
     type: InfinityPaginationResponse(Portfolio),
   })
@@ -106,6 +108,6 @@ export class PortfoliosController {
     required: true,
   })
   remove(@Param('id') id: string) {
-    return this.portfoliosService.remove(id);
+    return this.portfoliosService._delete(id);
   }
 }

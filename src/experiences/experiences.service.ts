@@ -60,8 +60,6 @@ export class ExperiencesService {
 
       workStyle: createExperienceDto.workStyle,
 
-      description: createExperienceDto.description,
-
       accomplishments: createExperienceDto.accomplishments,
 
       order: createExperienceDto.order,
@@ -131,8 +129,6 @@ export class ExperiencesService {
       isCurrently: updateExperienceDto.isCurrently,
 
       workStyle: updateExperienceDto.workStyle,
-
-      description: updateExperienceDto.description,
 
       accomplishments: updateExperienceDto.accomplishments,
 

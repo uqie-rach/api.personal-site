@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PortfolioEntity } from '../../../../portfolios/infrastructure/persistence/relational/entities/portfolio.entity';
 import { TechStackEntity } from '../../../../tech-stacks/infrastructure/persistence/relational/entities/tech-stack.entity';
 import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PortfolioSeedService {
@@ -30,18 +30,22 @@ export class PortfolioSeedService {
 
       const projectsData = [
         {
-          title: 'Tukar AI App',
+          title: 'Tukar AI App (Fullstack Multiplatform)',
           description:
             'Full-stack AI solution featuring React Native mobile client, NestJS backend, and custom ML engine using Python + FastAPI. Includes prompt routing and model orchestration for AI-powered features.',
-          techStackNames: [
+          technologies: [
+            'PostgreSQL',
+            'Next.js',
             'React Native',
-            'NestJS',
-            'Python',
-            'FastAPI',
-            'TypeScript',
+            'Redis',
+            'Docker',
+            'Jenkins',
+            'FastApi',
           ],
-          liveUrl: null,
-          repoUrl: '#',
+          image: null,
+          ownedBy: user,
+          liveUrl: 'https://tukar-translate.my.id',
+          repoUrl: 'https://tukar-translate.my.id',
           featured: true,
           order: 1,
         },
@@ -49,50 +53,51 @@ export class PortfolioSeedService {
           title: 'Bikinkonten.AI - B2B AI Content Generation Platform',
           description:
             'Scalable B2B platform for AI-powered content generation supporting text, image, and video generation. Integrated Google Gemini API with multi-modal workflows and comprehensive content management system.',
-          techStackNames: [
+          technologies: [
             'Next.js',
+            'Zustand',
             'NestJS',
             'PostgreSQL',
-            'TypeScript',
-            'React',
+            'Jenkins',
+            'Docker',
+            'K6',
+            'Generative AI',
           ],
-          liveUrl: '#',
-          repoUrl: '#',
+          image: null,
+          ownedBy: user,
+          liveUrl: 'https://www.bikinkonten.ai',
+          repoUrl: 'https://www.bikinkonten.ai',
           featured: true,
           order: 2,
         },
         {
-          title: 'Tukar AI API',
-          description:
-            'Enterprise-grade REST API with optimized database architecture and scalable backend logic. Implemented CI/CD pipelines and improved query performance through advanced indexing strategies.',
-          techStackNames: ['NestJS', 'PostgreSQL', 'TypeScript', 'Docker'],
-          liveUrl: null,
-          repoUrl: '#',
-          featured: false,
-          order: 3,
-        },
-        {
-          title: 'Performance-Optimized Web Application',
+          title: 'Tenang AI Web Application',
           description:
             'Modern web application featuring island architecture and advanced image optimization. Achieved 85% performance improvement through UI rendering optimization and intelligent asset loading.',
-          techStackNames: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
-          liveUrl: '#',
-          repoUrl: '#',
+          technologies: [
+            'Angular',
+            'Astro.js',
+            'Nginx',
+            'Tailwind CSS',
+            'Docker',
+            'Jenkins',
+          ],
+          image: null,
+          ownedBy: user,
+          liveUrl: 'https://tenang.ai/',
+          repoUrl: 'https://tenang.ai/',
           featured: true,
           order: 4,
         },
         {
-          title: 'Firebase-Powered React Native App',
+          title: 'JKI Tiberias Mobile App',
           description:
             'Cross-platform React Native application with Firebase Authentication and Storage integration. Features optimized PostgreSQL schema design and comprehensive API documentation for seamless frontend integration.',
-          techStackNames: [
-            'React Native',
-            'Firebase',
-            'PostgreSQL',
-            'JavaScript',
-          ],
-          liveUrl: null,
-          repoUrl: '#',
+          technologies: ['React Native', 'Firebase', 'NoSQL'],
+          image: null,
+          ownedBy: user,
+          liveUrl: 'https://www.uqie.my.id',
+          repoUrl: 'https://www.uqie.my.id',
           featured: false,
           order: 5,
         },
@@ -100,35 +105,17 @@ export class PortfolioSeedService {
           title: 'Gudangorder - E-Commerce Platform',
           description:
             'Feature-rich e-commerce platform built with Vue.js featuring dynamic product interactions, smooth API-driven UI, and optimized performance. Delivers engaging user experience with modern web technologies.',
-          techStackNames: ['Vue.js', 'JavaScript', 'Tailwind CSS'],
-          liveUrl: '#',
-          repoUrl: '#',
+          technologies: ['Next.js', 'Zustand', 'Tailwind CSS'],
+          image: null,
+          ownedBy: user,
+          liveUrl: 'http://gudangorder-fe-test.vercel.app',
+          repoUrl: 'http://gudangorder-fe-test.vercel.app',
           featured: false,
           order: 6,
         },
       ];
 
-      for (const projectData of projectsData) {
-        const techStacks = await this.techStackRepository.find({
-          where: {
-            name: In(projectData.techStackNames),
-          },
-        });
-
-        await this.repository.save(
-          this.repository.create({
-            title: projectData.title,
-            description: projectData.description,
-            image: '#',
-            technologies: techStacks,
-            liveUrl: projectData.liveUrl,
-            repoUrl: projectData.repoUrl,
-            featured: projectData.featured,
-            order: projectData.order,
-            ownedBy: user,
-          }),
-        );
-      }
+      await this.repository.insert(projectsData);
     }
   }
 }

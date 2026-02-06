@@ -78,7 +78,7 @@ export class UserEntity extends EntityRelationalHelper {
   role?: RoleEntity | null;
 
   @OneToMany(() => BlogEntity, (childEntity) => childEntity.createdBy, {
-    eager: true,
+    eager: false,
     nullable: true,
   })
   blogs?: BlogEntity[] | null;

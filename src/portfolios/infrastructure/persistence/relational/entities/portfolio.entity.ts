@@ -1,23 +1,26 @@
 import { UserEntity } from '../../../../../users/infrastructure/persistence/relational/entities/user.entity';
 
-import { TechStackEntity } from '../../../../../tech-stacks/infrastructure/persistence/relational/entities/tech-stack.entity';
-
 import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
+import { FileEntity } from '../../../../../files/infrastructure/persistence/relational/entities/file.entity';
 
 @Entity({
   name: 'portfolio',
 })
 export class PortfolioEntity extends EntityRelationalHelper {
+  @OneToOne(() => FileEntity, { eager: true, nullable: true })
+  @JoinColumn()
+  image?: FileEntity | null;
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -36,12 +39,9 @@ export class PortfolioEntity extends EntityRelationalHelper {
   @Column({
     nullable: false,
     type: String,
+    array: true,
   })
-  image: string;
-
-  @ManyToMany(() => TechStackEntity, { eager: true, nullable: false })
-  @JoinTable()
-  technologies: TechStackEntity[];
+  technologies: string[];
 
   @Column({
     nullable: true,

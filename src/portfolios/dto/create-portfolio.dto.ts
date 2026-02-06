@@ -1,6 +1,8 @@
-import { UserDto } from '../../users/dto/user.dto';
+import { FileDto } from '../../files/dto/file.dto';
 
-import { TechStackDto } from '../../tech-stacks/dto/tech-stack.dto';
+import { PortfolioDto } from './portfolio.dto';
+
+import { UserDto } from '../../users/dto/user.dto';
 
 import {
   // decorators here
@@ -26,6 +28,16 @@ import {
 
 export class CreatePortfolioDto {
   @ApiProperty({
+    required: false,
+    type: () => FileDto,
+  })
+  @IsOptional()
+  // @ValidateNested()
+  // @IsNotEmptyObject()
+  @Type(() => FileDto)
+  image?: FileDto | null;
+
+  @ApiProperty({
     required: true,
     type: () => UserDto,
   })
@@ -50,19 +62,11 @@ export class CreatePortfolioDto {
 
   @ApiProperty({
     required: true,
-    type: () => String,
+    type: () => [String],
   })
-  @IsString()
-  image: string;
-
-  @ApiProperty({
-    required: true,
-    type: () => [TechStackDto],
-  })
-  @ValidateNested()
-  @Type(() => TechStackDto)
+  @Type(() => String)
   @IsArray()
-  technologies: TechStackDto[];
+  technologies: string[];
 
   @ApiProperty({
     required: false,

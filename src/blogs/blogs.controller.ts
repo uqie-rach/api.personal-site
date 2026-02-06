@@ -20,17 +20,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Blog } from './domain/blog';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllBlogsDto } from './dto/find-all-blogs.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Blogs')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard)
 @Controller({
   path: 'blogs',
   version: '1',
@@ -47,6 +48,7 @@ export class BlogsController {
   }
 
   @Get()
+  @Public()
   @ApiOkResponse({
     type: InfinityPaginationResponse(Blog),
   })
@@ -70,6 +72,7 @@ export class BlogsController {
     );
   }
 
+  @Public()
   @Get(':id')
   @ApiParam({
     name: 'id',
