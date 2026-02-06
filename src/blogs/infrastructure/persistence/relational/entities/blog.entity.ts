@@ -79,7 +79,7 @@ export class BlogEntity extends EntityRelationalHelper {
   tags: string;
 
   @ManyToOne(() => UserEntity, (parentEntity) => parentEntity.blogs, {
-    eager: false,
+    eager: true,
     nullable: false,
   })
   createdBy: UserEntity;
