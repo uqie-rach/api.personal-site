@@ -115,7 +115,7 @@ export class FilesSupabaseService implements FileStoragePort {
   }
 
   async findById(id: string) {
-    console.log('[1] from supa service')
+    console.log('[1] from supa service');
     if (!id) {
       throw new BadRequestException('Id is required');
     }

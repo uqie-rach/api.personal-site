@@ -24,8 +24,6 @@ export class ExperienceMapper {
 
     domainEntity.workStyle = raw.workStyle;
 
-    domainEntity.description = raw.description;
-
     domainEntity.accomplishments = raw.accomplishments;
 
     domainEntity.order = raw.order;
@@ -58,8 +56,6 @@ export class ExperienceMapper {
     persistenceEntity.isCurrently = domainEntity.isCurrently;
 
     persistenceEntity.workStyle = domainEntity.workStyle;
-
-    persistenceEntity.description = domainEntity.description;
 
     persistenceEntity.accomplishments = domainEntity.accomplishments;
 

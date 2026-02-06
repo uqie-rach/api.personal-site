@@ -87,7 +87,8 @@ export class FilesSupabaseController {
         file: {
           id: 'dc1c7165-5242-4fa4-a6e7-b18a7cd5b6ba',
           path: 'uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
-          publicUrl: 'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png'
+          publicUrl:
+            'https://noclvlfgyyldjlkuhmbr.supabase.co/storage/v1/object/public/images/uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
         },
       },
     },
@@ -102,15 +103,15 @@ export class FilesSupabaseController {
     schema: {
       type: 'object',
       example: {
-        path: "uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png"
-      }
-    }
+        path: 'uploads/82d9287f-73d9-427c-a9eb-216429b2796e.png',
+      },
+    },
   })
   @ApiResponse({
     schema: {
       type: 'object',
       example: {
-        message: 'ok'
+        message: 'ok',
       },
     },
   })

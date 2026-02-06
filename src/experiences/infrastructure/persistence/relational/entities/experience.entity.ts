@@ -60,17 +60,11 @@ export class ExperienceEntity extends EntityRelationalHelper {
   workStyle: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: String,
     array: true,
   })
-  description: string[];
-
-  @Column({
-    nullable: true,
-    type: String,
-  })
-  accomplishments?: string | null;
+  accomplishments: string[];
 
   @Column({
     nullable: false,

@@ -1,4 +1,8 @@
-import { Injectable, Logger, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 
 import { FileType } from './domain/file';
 import { NullableType } from '../utils/types/nullable.type';
@@ -33,26 +37,26 @@ export class FilesService {
    * @throws UnprocessableEntityException jika gagal menghapus dari storage
    */
   async _delete(path: FileType['path']): Promise<NullableType<FileType>> {
-    console.log('[2] delete from storage')
+    console.log('[2] delete from storage');
     try {
       // 1. Hapus dari storage terlebih dahulu via adapter
       // Jika ini gagal, exception akan thrown dan database tidak akan terhapus
       await this.supabaseService.delete(path);
     } catch (error) {
-      Logger.error(error instanceof Error && error.message)
+      Logger.error(error instanceof Error && error.message);
       throw new UnprocessableEntityException(
         `Failed to delete image from storage: ${
           error instanceof Error ? error.message : 'Unknown error'
         }`,
       );
     }
-    
-    console.log('[3] delete from db')
+
+    console.log('[3] delete from db');
     // 2. Setelah storage berhasil dihapus, hapus dari database
     try {
       return this.fileRepository._delete(path);
     } catch (error) {
-      Logger.error(error instanceof Error && error.message)
+      Logger.error(error instanceof Error && error.message);
       // Database deletion failed - ini adalah error scenario
       throw new UnprocessableEntityException(
         `File deleted from storage but failed to delete from database: ${

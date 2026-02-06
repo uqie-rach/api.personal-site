@@ -190,7 +190,6 @@ export class PortfoliosService {
     // Fail-safe: jika image deletion gagal, portfolio tidak akan terhapus
     if (toBeRemoved.image?.path) {
       try {
-        console.log('[1] from porto service')
         await this.fileService._delete(toBeRemoved.image.path);
       } catch (error) {
         throw new UnprocessableEntityException(

@@ -35,7 +35,7 @@ export class ExperienceSeedService {
           endDate: 'Sep 2025',
           isCurrently: false,
           workStyle: workStyle.PT,
-          description: [
+          accomplishments: [
             'Architected and developed AI-powered mobile app (React Native) with NestJS backend and custom ML engine using Python + FastAPI. Designed end-to-end system workflow including prompt routing and model engine orchestration.',
             'Successfully delivered full-stack AI solution with integrated ML pipeline and mobile client.',
           ],
@@ -50,7 +50,7 @@ export class ExperienceSeedService {
           endDate: 'Dec 2025',
           isCurrently: false,
           workStyle: workStyle.PT,
-          description: [
+          accomplishments: [
             'Architected and developed B2B features for AI content generation platform. Integrated Google Gemini API for text, image, and video generation workflows.',
             'Built scalable content generation system with multi-modal AI integration.',
           ],
@@ -65,7 +65,7 @@ export class ExperienceSeedService {
           endDate: 'Jan 2025',
           isCurrently: false,
           workStyle: workStyle.PT,
-          description: [
+          accomplishments: [
             'Developed and deployed RESTful APIs with optimized database structure and backend logic. Implemented scalable backend architecture and CI/CD pipelines.',
             'Increased API performance by ~30% through optimized queries and improved database indexing strategy.',
           ],
@@ -80,7 +80,7 @@ export class ExperienceSeedService {
           endDate: 'Oct 2024',
           isCurrently: false,
           workStyle: workStyle.PT,
-          description: [
+          accomplishments: [
             'Designed full system architecture and database schema. Applied island architecture and optimized UI rendering. Implemented advanced image optimization techniques.',
             'Improved page performance by ~85%, significantly reduced initial load time through image optimization.',
           ],
@@ -95,7 +95,7 @@ export class ExperienceSeedService {
           endDate: 'Nov 2024',
           isCurrently: false,
           workStyle: workStyle.IN,
-          description: [
+          accomplishments: [
             'Implemented Firebase Auth & Storage in React Native app. Designed PostgreSQL schema. Documented APIs for frontend team integration.',
             'Boosted query speed by ~25%, improved frontend development efficiency by ~15% through comprehensive API documentation.',
           ],
@@ -110,7 +110,7 @@ export class ExperienceSeedService {
           endDate: 'Sep 2024',
           isCurrently: false,
           workStyle: workStyle.IN,
-          description: [
+          accomplishments: [
             'Built interactive e-commerce pages using Vue.js. Enhanced UX through smooth API-driven UI and dynamic product interaction.',
             'Delivered multiple feature-rich e-commerce pages with optimized performance and engaging user experience.',
           ],

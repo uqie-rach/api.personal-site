@@ -72,6 +72,7 @@ export class BlogsController {
     );
   }
 
+  @Public()
   @Get(':id')
   @ApiParam({
     name: 'id',
