@@ -16,6 +16,17 @@ import { AuthGuard } from './auth/guards/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://uqie.my.id',
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
   const reflector = app.get(Reflector);
